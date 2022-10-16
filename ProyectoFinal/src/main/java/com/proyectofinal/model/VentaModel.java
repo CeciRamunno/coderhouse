@@ -18,7 +18,7 @@ public class VentaModel
     @Column
     private double total;
 
-    @OneToMany
+    @ManyToOne
     @Column(name = "cliente_id")
     private int clienteId;
 
