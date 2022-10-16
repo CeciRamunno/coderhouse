@@ -1,12 +1,11 @@
 package com.proyectofinal;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FacturacionApplicationTests {
+class ProyectoFinalApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 
