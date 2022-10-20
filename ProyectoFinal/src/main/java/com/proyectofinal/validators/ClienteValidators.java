@@ -1,2 +1,4 @@
-package com.proyectofinal.validators;public class ClientValidators {
+package com.proyectofinal.validators;
+
+public class ClienteValidators {
 }
