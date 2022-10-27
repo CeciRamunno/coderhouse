@@ -14,9 +14,14 @@ public class ClienteService
     @Autowired
     private ClienteRepository clienteRepository;
 
+    public Optional<ClienteModel> findById(int id)
+    {
+        return this.clienteRepository.findById(id);
+    }
+
     public List<ClienteModel> findAll()
     {
-        return clienteRepository.findAll();
+        return this.clienteRepository.findAll();
     }
 
     public ClienteModel altaCliente(ClienteModel nuevoCliente)
@@ -41,8 +46,9 @@ public class ClienteService
         return null;
     }
 
-    public void delete(int id)
+    public void deleteById(int id)
     {
         this.clienteRepository.deleteById(id);
     }
+
 }

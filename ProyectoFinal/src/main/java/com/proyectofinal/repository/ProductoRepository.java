@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface ProductoRepository extends JpaRepository<ProductoModel, Integer>
 {
-
+    Optional<ProductoModel> findById(int id);
 }
