@@ -1,5 +1,6 @@
 package com.proyectofinal.controller;
 
+import com.proyectofinal.exceptions.ResourceAlreadyExistsException;
 import com.proyectofinal.model.ClienteModel;
 import com.proyectofinal.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,8 @@ public class ClienteController
     }
 
     @PostMapping("/postAltaCliente")
-    public ResponseEntity<ClienteModel> altaCliente(@RequestBody ClienteModel nuevoCliente)
-    {
-        return new ResponseEntity<>(this.clienteSvc.altaCliente(nuevoCliente), HttpStatus.OK);
+    public ResponseEntity<ClienteModel> create(@RequestBody ClienteModel nuevoCliente) throws ResourceAlreadyExistsException {
+        return new ResponseEntity<>(this.clienteSvc.create(nuevoCliente), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
