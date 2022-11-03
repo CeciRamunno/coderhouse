@@ -9,7 +9,7 @@ import java.util.Objects;
 public class ClienteModel
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column

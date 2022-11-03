@@ -9,7 +9,7 @@ import java.util.Objects;
 public class ProductoModel
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column

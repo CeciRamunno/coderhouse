@@ -2,6 +2,7 @@ package com.proyectofinal.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -9,7 +10,7 @@ import java.util.Objects;
 public class VentaModel
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "fecha_alta")
@@ -19,12 +20,16 @@ public class VentaModel
     private double total;
 
     @ManyToOne
-    @Column(name = "cliente_id")
-    private int clienteId;
+    @JoinColumn(name = "cliente_id")
+    private ClienteModel clienteId;
+
+    @OneToMany
+    private List<DetalleVentaModel> detalle;
+
 
     public VentaModel() { }
 
-    public VentaModel(int id, LocalDate fechaAlta, double total, int clienteId) {
+    public VentaModel(int id, LocalDate fechaAlta, double total, ClienteModel clienteId) {
         this.id = id;
         this.fechaAlta = fechaAlta;
         this.total = total;
@@ -55,11 +60,11 @@ public class VentaModel
         this.total = total;
     }
 
-    public int getClienteId() {
+    public ClienteModel getClienteId() {
         return clienteId;
     }
 
-    public void setClienteId(int clienteId) {
+    public void setClienteId(ClienteModel clienteId) {
         this.clienteId = clienteId;
     }
 

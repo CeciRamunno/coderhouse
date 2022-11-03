@@ -1,7 +1,9 @@
 package com.proyectofinal.controller;
 
+import com.proyectofinal.exceptions.IllegalArgumentException;
+import com.proyectofinal.exceptions.ResourceAlreadyExistsException;
 import com.proyectofinal.model.ProductoModel;
-import com.proyectofinal.service.ProductoService;
+import com.proyectofinal.service.ProductoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ import java.util.Optional;
 public class ProductoController
 {
     @Autowired
-    private ProductoService prodSvc;
+    private ProductoServiceImpl prodSvc;
 
     @GetMapping("/getProdById")
     public Optional<ProductoModel> findById(int id)
@@ -29,10 +31,9 @@ public class ProductoController
         return new ResponseEntity<>(this.prodSvc.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/postAltaProducto")
-    public ResponseEntity<ProductoModel> altaProducto(@RequestBody ProductoModel newProd)
-    {
-        return new ResponseEntity<>(prodSvc.altaProducto(newProd), HttpStatus.OK);
+    @PostMapping("/postCreateProducto")
+    public ResponseEntity<ProductoModel> create(@RequestBody ProductoModel newProd) throws ResourceAlreadyExistsException, IllegalArgumentException {
+        return new ResponseEntity<>(prodSvc.create(newProd), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
