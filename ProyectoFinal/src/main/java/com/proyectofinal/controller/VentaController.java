@@ -1,46 +1,37 @@
 package com.proyectofinal.controller;
 
 import com.proyectofinal.model.VentaModel;
-import com.proyectofinal.service.VentaService;
+import com.proyectofinal.service.VentaServiceImpl;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@RequestMapping(path = "api/venta")
 @RestController
-public class VentaController
-{
+@RequestMapping(path = "/venta")
+public class VentaController {
     @Autowired
-    private VentaService ventaService;
+    private VentaServiceImpl vtaSvc;
 
-    @GetMapping("/getVentaById")
-    public Optional<VentaModel> findById(int id)
+
+    @GetMapping(value = "/getVentaById/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getVentaById(@PathVariable(name = "id") Long id)
     {
-        return ventaService.findById(id);
+        return new ResponseEntity<>(vtaSvc.findVentaById(id), HttpStatus.OK);
+    }
+    @GetMapping(value = "/todos")
+    public ResponseEntity<List<VentaModel>> findAllVentas()
+    {
+        return new ResponseEntity<>(vtaSvc.findVentas(), HttpStatus.OK);
     }
 
-    @GetMapping("/getVentas")
-    public ResponseEntity<List<VentaModel>> findAll()
+    @PostMapping(value = "/postNewVta")
+    public ResponseEntity<VentaModel> createVta(@RequestBody VentaModel newVta)
     {
-        return new ResponseEntity<>(ventaService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(vtaSvc.createVenta(newVta), HttpStatus.OK);
     }
-
-    @PostMapping("/postNuevaVenta")
-    public ResponseEntity<VentaModel> nuevaVenta(@RequestBody VentaModel nuevaVenta)
-    {
-        return new ResponseEntity<>(ventaService.nuevaVenta(nuevaVenta), HttpStatus.OK);
-    }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<VentaModel> updateVenta(@RequestBody VentaModel vtaABM, @PathVariable int id)
-    {
-        return new ResponseEntity<>(ventaService.update(vtaABM, id), HttpStatus.OK);
-    }
-
-
-
 }

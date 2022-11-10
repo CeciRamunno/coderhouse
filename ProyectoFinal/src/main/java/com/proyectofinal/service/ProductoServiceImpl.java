@@ -1,10 +1,7 @@
 package com.proyectofinal.service;
 
-import com.proyectofinal.exceptions.IllegalArgumentException;
-import com.proyectofinal.exceptions.ResourceAlreadyExistsException;
 import com.proyectofinal.model.ProductoModel;
 import com.proyectofinal.repository.ProductoRepository;
-import com.proyectofinal.validators.ProductoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,52 +14,44 @@ public class ProductoServiceImpl
     @Autowired
     private ProductoRepository productoRepository;
 
-    @Autowired
-    private ProductoValidator prodValidador;
-
-    public Optional<ProductoModel> findById(int id)
+    public ProductoModel findProductoById(Long id)
     {
-        return productoRepository.findById(id);
+        return this.productoRepository.findProductoById(id);
     }
 
-    public List<ProductoModel> findAll()
+    public List<ProductoModel> findProductos()
     {
-        return productoRepository.findAll();
+        return this.productoRepository.findAll();
     }
 
-    public ProductoModel create(ProductoModel newProd) throws ResourceAlreadyExistsException, IllegalArgumentException {
-        this.prodValidador.validate(newProd);
-
-        Optional<ProductoModel> prodBD = this.productoRepository.findBySku(newProd.getSku());
-        if(prodBD.isPresent())
-            throw new ResourceAlreadyExistsException("El producto que se desea crear ya existe en la BD: " + newProd.toString());
-        else
-            return this.productoRepository.save(newProd);
+    public ProductoModel createProducto(ProductoModel newProd)
+    {
+        return this.productoRepository.save(newProd);
     }
 
-    public ProductoModel update(ProductoModel producto, int id)
+    public ProductoModel updateProducto(ProductoModel producto, Long id)
     {
-        Optional<ProductoModel> productoBD = productoRepository.findById(id);
-        if(productoBD.isPresent())
+        Optional<ProductoModel> productoDB = this.productoRepository.findById(id);
+
+        if(productoDB.isPresent())
         {
-            ProductoModel prodABM = productoBD.get();
+            ProductoModel productoABM = productoDB.get();
 
-            prodABM.setId(producto.getId());
-            prodABM.setDescripcion(producto.getDescripcion());
-            prodABM.setSku(producto.getSku());
-            prodABM.setPrecioCompra(producto.getPrecioCompra());
-            prodABM.setPrecioVenta(producto.getPrecioVenta());
-            prodABM.setStock(producto.getStock());
-            prodABM.setFechaAlta(producto.getFechaAlta());
+            productoABM.setSku(producto.getSku());
+            productoABM.setDescripcion(producto.getDescripcion());
+            productoABM.setPrecioCompra(producto.getPrecioCompra());
+            productoABM.setPrecioVenta(producto.getPrecioVenta());
+            productoABM.setFechaAlta(producto.getFechaAlta());
 
-            return productoRepository.save(prodABM);
+            return this.productoRepository.save(productoABM);
         }
 
         return null;
     }
 
-    public void deleteById(int id)
+    public void deleteById(Long id)
     {
-        productoRepository.deleteById(id);
+        //TODO: validarq exista antes.
+        this.productoRepository.deleteById(id);
     }
 }

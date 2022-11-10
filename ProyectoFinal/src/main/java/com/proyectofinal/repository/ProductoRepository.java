@@ -2,14 +2,15 @@ package com.proyectofinal.repository;
 
 import com.proyectofinal.model.ProductoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
+import java.util.List;
 
-@Repository
-public interface ProductoRepository extends JpaRepository<ProductoModel, Integer>
+public interface ProductoRepository extends JpaRepository<ProductoModel, Long>
 {
-    Optional<ProductoModel> findProductoById(int id);
-
-    Optional<ProductoModel> findBySku(String sku);
+    @Query(value = "Select * from productos where id = ?1", nativeQuery = true)
+    public ProductoModel findProductoById(long id);
+//
+//    @Query(value = "Select * from productos", nativeQuery = true)
+//    public List<ProductoModel> findAllProductos();
 }

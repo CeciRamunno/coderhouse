@@ -9,22 +9,22 @@ apellido VARCHAR(100) NOT NULL,
 fecha_nacimiento DATE
 );
 
+CREATE TABLE productos(
+id INT PRIMARY KEY AUTO_INCREMENT,
+sku VARCHAR(50),
+descripcion VARCHAR(150),
+precio_compra DOUBLE,
+precio_venta DOUBLE,
+stock INT,
+fecha_alta DATE
+);
+
 CREATE TABLE venta(
 id INT PRIMARY KEY AUTO_INCREMENT,
 fecha_alta DATE NOT NULL,
 total DOUBLE,
 cliente_id INT NOT NULL,
 CONSTRAINT fk_cliente_id FOREIGN KEY(cliente_id) REFERENCES clientes(id)
-);
-
-CREATE TABLE productos(
-id INT PRIMARY KEY AUTO_INCREMENT,
-sku VARCHAR(50),
-descripcion VARCHAR(150),
-precioCompra DOUBLE,
-precioVenta DOUBLE,
-stock INT,
-fecha_alta DATE
 );
 
 CREATE TABLE detalle_venta(
@@ -46,7 +46,7 @@ VALUES  ('30100001', 'Juan', 'Perez', '1980-01-10'),
         ('40100001', 'Josefina', 'Gonzalez', '2002-09-04');
         
 INSERT INTO productos
-(sku, descripcion, precioCompra, precioVenta, stock, fecha_alta)
+(sku, descripcion, precio_compra, precio_venta, stock, fecha_alta)
 VALUES	('AAA-123A01', 'PROD TIPO A', '110', '160', '100', '2022-09-01'),
 		('ACD-125B11', 'PROD TIPO B', '540', '675', '10', '2022-09-11'),
         ('ABB-427C58', 'PROD TIPO C', '70', '100', '55', '2022-08-27'),
@@ -74,3 +74,6 @@ VALUES	('1', '1', '2', '32000'),
         ('5', '1', '2', '320'),
         ('5', '5', '2', '1520'),
         ('6', '4', '4', '200');
+
+        select * from clientes;
+        select * from productos;

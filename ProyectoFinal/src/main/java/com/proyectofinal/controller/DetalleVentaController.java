@@ -1,45 +1,38 @@
 package com.proyectofinal.controller;
 
 import com.proyectofinal.model.DetalleVentaModel;
-import com.proyectofinal.service.DetalleVentaService;
+import com.proyectofinal.service.DetalleVentaServiceImpl;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@RequestMapping(path = "api/detalleVenta")
 @RestController
+@RequestMapping(path = "/detalle")
 public class DetalleVentaController
 {
     @Autowired
-    private DetalleVentaService detalleVentaService;
+    private DetalleVentaServiceImpl detalleSvc;
 
-    @GetMapping("/getDetalleVentaById")
-    public Optional<DetalleVentaModel> findById(int id)
+    @GetMapping(value = "/getDetalleVentaById/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getDetalleById(@PathVariable(name = "id") Long id)
     {
-        return detalleVentaService.findById(id);
+        return new ResponseEntity<>(detalleSvc.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/getDetalleVentas")
-    public ResponseEntity<List<DetalleVentaModel>> findAll()
+    @GetMapping(value = "/todos")
+    public ResponseEntity<List<DetalleVentaModel>> findAllDetalles()
     {
-        return new ResponseEntity<>(detalleVentaService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(detalleSvc.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/postNuevoDetalleVenta")
-    public ResponseEntity<DetalleVentaModel> nuevoDetalleVenta(@RequestBody DetalleVentaModel nuevoDetVenta)
+    @PostMapping(value = "/postNewDetalle")
+    public ResponseEntity<DetalleVentaModel> createDetalle(@RequestBody DetalleVentaModel newDetalle)
     {
-        return new ResponseEntity<>(detalleVentaService.nuevoDetalleVta(nuevoDetVenta), HttpStatus.OK);
+        return new ResponseEntity<>(detalleSvc.createDetalleVenta(newDetalle),HttpStatus.OK);
     }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<DetalleVentaModel> updateDetalleVenta(@RequestBody DetalleVentaModel detalleVtaABM, @PathVariable int id)
-    {
-        return new ResponseEntity<>(detalleVentaService.update(detalleVtaABM, id), HttpStatus.OK);
-    }
-
-
 }

@@ -1,14 +1,16 @@
 package com.proyectofinal.repository;
 
-
 import com.proyectofinal.model.DetalleVentaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
+import java.util.List;
 
-@Repository
-public interface DetalleVentaRepository extends JpaRepository<DetalleVentaModel, Integer>
+public interface DetalleVentaRepository extends JpaRepository<DetalleVentaModel, Long>
 {
-    Optional<DetalleVentaModel> findDetalleVentaById(int id);
+//    @Query(value = "Select * from detalle_venta where id i= ?1", nativeQuery = true)
+//    public DetalleVentaModel findDetalleVtaById(int id);
+//
+//    @Query(value = "Select * from detalle_venta", nativeQuery = true)
+//    public List<DetalleVentaModel> findDetallesVta();
 }
