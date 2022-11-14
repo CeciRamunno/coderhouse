@@ -1,9 +1,9 @@
 package com.proyectofinal.exceptions;
 
-public class ResourceAlreadyExistsException  extends Exception
+public class ResourceAlreadyExistsException extends Exception
 {
-    public ResourceAlreadyExistsException(String msg)
+    public ResourceAlreadyExistsException(String msj)
     {
-        super(msg);
+        super(msj);
     }
 }

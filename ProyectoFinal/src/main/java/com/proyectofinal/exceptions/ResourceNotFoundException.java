@@ -1,9 +1,8 @@
 package com.proyectofinal.exceptions;
 
-public class ResourceNotFoundException  extends Exception
+public class ResourceNotFoundException extends Exception
 {
-    public ResourceNotFoundException(String msg)
-    {
-        super(msg);
+    public ResourceNotFoundException(String msj){
+        super(msj);
     }
 }

@@ -1,14 +1,15 @@
 package com.proyectofinal.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Entity
 @Table(name = "venta")
+@NoArgsConstructor
 public class VentaModel
 {
     @Id
@@ -25,6 +26,10 @@ public class VentaModel
     @JoinColumn(name = "cliente_id")
     private ClienteModel clienteId;
 
-    @OneToMany
-    private List<DetalleVentaModel> detalle;
+    public VentaModel(LocalDate fechaAlta, double total, ClienteModel clienteId)
+    {
+        this.fechaAlta = fechaAlta;
+        this.total = total;
+        this.clienteId = clienteId;
+    }
 }

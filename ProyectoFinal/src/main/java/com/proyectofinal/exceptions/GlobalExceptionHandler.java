@@ -1,38 +1,32 @@
 package com.proyectofinal.exceptions;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
-
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler
 {
-    @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ResponseEntity<Error> resourceAlreadyExistsException(Exception ex)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<Object> illegalArgumentException(Exception ex, WebRequest request)
     {
-        Error error = new Error();
-//        error.setMsg(ex.getMessage());
-//        error.setStatus("ERROR");
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+        return new ResponseEntity<Object>(ex.toString(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Error> illegalArgumentException(Exception ex)
+    @ExceptionHandler({ResourceAlreadyExistsException.class})
+    public ResponseEntity<Object> resourceAlreadyExistsException(Exception ex, WebRequest request)
     {
-        Error error = new Error();
-//        error.setMsg(ex.getMessage());
-//        error.setStatus("ERROR");
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+     return new ResponseEntity<Object>(ex.toString(), new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Error> resourceNotFoundException(Exception ex)
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<Object> resourceNotFoundException(Exception ex, WebRequest request)
     {
-        Error error = new Error();
-//        error.setMsg(ex.getMessage());
-//        error.setStatus("ERROR");
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Object>(ex.toString(), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 }
+
+//https://www.baeldung.com/exception-handling-for-rest-with-spring

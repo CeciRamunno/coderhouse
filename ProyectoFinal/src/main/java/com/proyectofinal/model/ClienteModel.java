@@ -22,9 +22,18 @@ public class ClienteModel {
     @Column
     private String apellido;
 
-    //TODO: error al insertar fecha nacimiento
-//    @JsonSerialize
- //   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
+
+    public String informeNewCliente()
+    {
+        return String.format("Cliente creado:%nID: %d | DNI: %s | Nombre y apellido: %s %s | Fecha Nacimiento: %s.%n",
+                this.id, this.dni, this.nombre, this.apellido, this.fechaNacimiento);
+    }
+
+    public String informeCliActualizado()
+    {
+        return String.format("Cliente de ID %d actualizado:%nDNI: %s | Nombre y apellido: %s %s | Fecha Nacimiento: %s.%n",
+                this.id, this.dni, this.nombre, this.apellido, this.fechaNacimiento);
+    }
 }

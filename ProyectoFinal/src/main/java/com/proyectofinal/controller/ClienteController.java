@@ -1,5 +1,7 @@
 package com.proyectofinal.controller;
 
+import com.proyectofinal.exceptions.ResourceAlreadyExistsException;
+import com.proyectofinal.exceptions.ResourceNotFoundException;
 import com.proyectofinal.model.ClienteModel;
 import com.proyectofinal.service.ClienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,37 +14,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/cliente")
-public class ClienteController {
+public class ClienteController
+{
     @Autowired
     private ClienteServiceImpl clienteSvc;
 
     @GetMapping(value = "/getClienteById/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getClienteById(@PathVariable(name = "id") Long id)
+    public ResponseEntity<?> getClienteById(@PathVariable(name = "id") Long id) throws ResourceNotFoundException
     {
-        return new ResponseEntity<>(clienteSvc.findClienteById(id), HttpStatus.OK);
+      return new ResponseEntity<>(clienteSvc.findClienteById(id), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getClienteByDNI/{dni}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getClienteById(@PathVariable(name = "dni") String dni) throws ResourceNotFoundException {
+        return new ResponseEntity<>(clienteSvc.findClienteByDNI(dni), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/getTodos")
-    public ResponseEntity<List<ClienteModel>> findAllClientes()
-    {
+    public ResponseEntity<List<ClienteModel>> findAllClientes() throws ResourceNotFoundException {
         return new ResponseEntity<>(clienteSvc.findClientes(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/postNewCliente")
-    public ResponseEntity<ClienteModel> createCliente(@RequestBody ClienteModel newCli)
-    {
+    public ResponseEntity<String> createCliente(@RequestBody ClienteModel newCli) throws ResourceNotFoundException, ResourceAlreadyExistsException {
         return new ResponseEntity<>(clienteSvc.createCliente(newCli), HttpStatus.OK);
     }
 
     @PutMapping(value = "/updateCliente/{id}")
-    public ResponseEntity<ClienteModel> updateCliente(@RequestBody ClienteModel cliente, @PathVariable Long id)
-    {
+    public ResponseEntity<String> updateCliente(@RequestBody ClienteModel cliente, @PathVariable Long id) throws ResourceNotFoundException {
         return new ResponseEntity<>(clienteSvc.updateCliente(cliente, id), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable long id)
-    {
-        clienteSvc.deleteById(id);
-        return new ResponseEntity<>("Cliente de id " + id + " eliminado.", HttpStatus.OK);
+    public ResponseEntity<String> deleteById(@PathVariable Long id) throws ResourceNotFoundException, ResourceAlreadyExistsException {
+        String rtado = clienteSvc.deleteById(id);
+        if(rtado.equals("ok"))
+            return new ResponseEntity<>("Cliente de id " + id + " eliminado.", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Error al eliminar cliente de id " + id + ".", HttpStatus.BAD_REQUEST);
     }
 }

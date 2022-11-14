@@ -2,8 +2,8 @@ package com.proyectofinal.exceptions;
 
 public class IllegalArgumentException extends Exception
 {
-    public IllegalArgumentException(String msg)
+    public IllegalArgumentException(String msj)
     {
-        super(msg);
+        super(msj);
     }
 }

@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface VentaRepository extends JpaRepository<VentaModel, Long>
 {
-//    @Query(value = "Select * from venta where id i= ?1", nativeQuery = true)
-//    public VentaModel findVentaById(int id);
-//
-//    @Query(value = "Select * from venta", nativeQuery = true)
-//    public List<VentaModel> findAllVentas();
+    /**
+     * Para traer las ventas realizadas por un Cliente puntual.
+     * @param id: id del cliente.
+     * @return la lista de ventas para ese cliente.
+     */
+    @Query(value = "Select * from Venta where cliente_id = ?1", nativeQuery = true)
+    public List<VentaModel> findVentasByClienteId(Long id);
 }
